@@ -19,7 +19,8 @@ void draw() {
   if (thisClient !=null) {
     byte[] Bytes = thisClient.readBytes();
     println(str(char(Bytes)));
-    thisClient.write(Bytes.length);
+    //thisClient.write(Bytes.length);
+    thisClient.write(4);
     thisClient.write(Bytes);
   }   
   
