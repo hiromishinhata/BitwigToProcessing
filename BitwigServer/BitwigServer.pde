@@ -1,3 +1,5 @@
+// Start this server first and then reload the Processing Script in BWS
+
 import processing.net.*;
 
 Server myServer;
@@ -6,7 +8,7 @@ int val = 0;
 void setup() {
   frameRate(1);
   size(200, 200);
-  // Starts a myServer on port 42000
+  // Starts a Server on port 42000
   myServer = new Server(this, 42001); 
 }
 
@@ -19,9 +21,19 @@ void draw() {
   if (thisClient !=null) {
     byte[] Bytes = thisClient.readBytes();
     println(str(char(Bytes)));
-    //thisClient.write(Bytes.length);
-    thisClient.write(4);
-    thisClient.write(Bytes);
+
+     // A "header" has to be sent first, containing the length of the byte array of data
+     // It is sent as 4 bytes which together build a 32 Bit integer:
+     thisClient.write((Bytes.length >> 24) & 0xFF);
+     thisClient.write((Bytes.length >> 16) & 0xFF);
+     thisClient.write((Bytes.length >> 8) & 0xFF);
+     thisClient.write(Bytes.length & 0xFF);
+     for(int i=0; i<Bytes.length; i++)
+     {
+       // With the header gone, we can send the data as bytes:
+       thisClient.write(Bytes[i]);
+     }
+     println("\nSent Data back to Client...");
   }   
   
   
