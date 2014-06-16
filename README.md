@@ -3,6 +3,8 @@ BitwigToProcessing
 
 Remote Connection between Bitwig and Processing
 
+http://processing.org/
+
 A basic example on how to directly connect via TCP either as client or server directly to Bitwig Studio via a Controller Script.
 This allows for a lot of interesting things:
 
